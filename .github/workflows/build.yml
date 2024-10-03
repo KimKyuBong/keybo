@@ -2,8 +2,4 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: self-hosted  # 셀프호스팅 러너를 사용하도록 지정
-    steps:
-      - uses: actions/checkout@v4  # 코드 체크아웃
-      - name: Build ZMK Firmware
-        uses: zmkfirmware/zmk/.github/actions/build@main  # 실제 ZMK 빌드 워크플로우 호출
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
