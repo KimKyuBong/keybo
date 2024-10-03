@@ -29,29 +29,20 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Upgrade Python to 3.10
+      - name: Setup Python and Upgrade pip & west
         run: |
           apt-get update
           apt-get install -y python3.10 python3.10-venv python3.10-dev
           update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
-          python3 --version
-
-      - name: Upgrade pip
-        run: |
           python3 -m pip install --upgrade pip
-
-      - name: Upgrade west
-        run: |
           pip install --upgrade west
+        shell: bash
 
-      - name: West Init
-        run: west init -l config
-
-      - name: West Update
-        run: west update
-
-      - name: West Zephyr export
-        run: west zephyr-export
+      - name: West Init and Update
+        run: |
+          west init -l config
+          west update
+          west zephyr-export
 
       - name: West Build (Corne Left)
         run: west build -s zmk/app -b nice_nano -- -DSHIELD=corne_left -DZMK_CONFIG="${GITHUB_WORKSPACE}/config"
@@ -63,7 +54,7 @@ jobs:
       - name: Corne Left Kconfig file
         run: cat build/zephyr/.config | grep -v "^#" | grep -v "^$"
 
-      - name: Rename zmk.uf2
+      - name: Rename zmk.uf2 (Corne Left)
         run: cp build/zephyr/zmk.uf2 corne_left_nice_nano.uf2
 
       - name: Archive (Corne Left)
@@ -78,7 +69,7 @@ jobs:
       - name: Corne Right Kconfig file
         run: cat build/zephyr/.config | grep -v "^#" | grep -v "^$"
 
-      - name: Rename zmk.uf2
+      - name: Rename zmk.uf2 (Corne Right)
         run: cp build/zephyr/zmk.uf2 corne_right_nice_nano.uf2
 
       - name: Archive (Corne Right)
