@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:3.5-branch
-
     name: Build
     steps:
       - name: Checkout
@@ -30,14 +29,10 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: Setup Python and Upgrade pip & west
+      - name: Install pip and west
         run: |
-          apt-get update
-          apt-get install -y python3.10 python3.10-venv python3.10-dev
-          update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.10 1
           python3 -m pip install --upgrade pip
           pip install --upgrade west
-        shell: bash
 
       - name: West Init and Update
         run: |
