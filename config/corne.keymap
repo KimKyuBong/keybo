@@ -48,6 +48,15 @@
         };
     };
 
+    combos {
+        compatible = "zmk,combos";
+
+        KoreanB {
+            bindings = <&kp B>;
+            key-positions = <24 30>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
